@@ -87,26 +87,39 @@ const BellPlusIcon = forwardRef<BellPlusIconHandle, BellPlusIconProps>(
   const bellVariants: Variants = {
    normal: { rotate: 0 },
    animate: {
-    rotate: [0, -12, 10, -6, 3, 0],
-    transition: { duration: 1.4 * duration, ease: "easeInOut", repeat: 0 },
+    rotate: [0, 7, -18, 14, -9, 5, -2, 0],
+    transition: {
+     duration: 1.3 * duration,
+     ease: "easeInOut",
+     times: [0, 0.09, 0.26, 0.45, 0.62, 0.78, 0.9, 1],
+    },
    },
   };
 
   const clapperVariants: Variants = {
    normal: { x: 0 },
    animate: {
-    x: [0, -3, 3, -2, 2, 0],
-    transition: { duration: 1.4 * duration, ease: "easeInOut", repeat: 0 },
+    x: [0, 1.5, -5, 4, -2.5, 1.5, -1, 0],
+    transition: {
+     duration: 1.3 * duration,
+     ease: "easeInOut",
+     times: [0, 0.09, 0.26, 0.45, 0.62, 0.78, 0.9, 1],
+     delay: 0.08 * duration,
+    },
    },
   };
 
   const plusVariants: Variants = {
    normal: { scale: 1, opacity: 1, rotate: 0 },
    animate: {
-    scale: [1, 1.3, 0.9, 1.1, 1],
-    rotate: [0, 45, -45, 0],
-    opacity: [1, 0.9, 1],
-    transition: { duration: 1.4 * duration, ease: "easeInOut", repeat: 0 },
+    scale: [0.3, 1.2, 0.94, 1],
+    rotate: [-90, 8, 0],
+    opacity: [0, 1, 1, 1],
+    transition: {
+     duration: 0.8 * duration,
+     ease: [0.34, 1.4, 0.64, 1],
+     delay: 0.16 * duration,
+    },
    },
   };
 
@@ -132,10 +145,19 @@ const BellPlusIcon = forwardRef<BellPlusIconHandle, BellPlusIconProps>(
       animate={controls}
       initial="normal"
       variants={bellVariants}
+      style={{ transformOrigin: "top center" }}
      >
       <m.path d="M10.268 21a2 2 0 0 0 3.464 0" variants={clapperVariants} />
-      <m.path d="M15 8h6" variants={plusVariants} />
-      <m.path d="M18 5v6" variants={plusVariants} />
+      <m.path
+       d="M15 8h6"
+       variants={plusVariants}
+       style={{ transformOrigin: "18px 8px" }}
+      />
+      <m.path
+       d="M18 5v6"
+       variants={plusVariants}
+       style={{ transformOrigin: "18px 8px" }}
+      />
       <path d="M20.002 14.464a9 9 0 0 0 .738.863A1 1 0 0 1 20 17H4a1 1 0 0 1-.74-1.673C4.59 13.956 6 12.499 6 8a6 6 0 0 1 8.75-5.332" />
      </m.svg>
     </m.div>

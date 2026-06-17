@@ -84,26 +84,30 @@ const BellIcon = forwardRef<BellIconHandle, BellIconProps>(
    [controls, onMouseLeave],
   );
 
+  // Premium ring: a small wind-up (anticipation), then a decaying swing that
+  // pivots from the top of the bell like a real hanging bell.
   const bellVariants: Variants = {
    normal: { rotate: 0 },
    animate: {
-    rotate: [0, -18, 15, -10, 6, -3, 0],
+    rotate: [0, 7, -18, 14, -9, 5, -2, 0],
     transition: {
-     duration: 1.6 * duration,
-     repeat: 0,
+     duration: 1.3 * duration,
      ease: "easeInOut",
+     times: [0, 0.09, 0.26, 0.45, 0.62, 0.78, 0.9, 1],
     },
    },
   };
 
+  // The clapper lags the bell a touch (follow-through) for a livelier feel.
   const clapperVariants: Variants = {
    normal: { x: 0 },
    animate: {
-    x: [0, -4, 4, -2, 2, 0],
+    x: [0, 1.5, -5, 4, -2.5, 1.5, -1, 0],
     transition: {
-     duration: 1.6 * duration,
-     repeat: 0,
+     duration: 1.3 * duration,
      ease: "easeInOut",
+     times: [0, 0.09, 0.26, 0.45, 0.62, 0.78, 0.9, 1],
+     delay: 0.05 * duration,
     },
    },
   };
@@ -130,6 +134,7 @@ const BellIcon = forwardRef<BellIconHandle, BellIconProps>(
       animate={controls}
       initial="normal"
       variants={bellVariants}
+      style={{ transformOrigin: "top center" }}
      >
       <m.path d="M10.268 21a2 2 0 0 0 3.464 0" variants={clapperVariants} />
       <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />

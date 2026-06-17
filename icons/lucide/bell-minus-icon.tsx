@@ -87,26 +87,38 @@ const BellMinusIcon = forwardRef<BellMinusIconHandle, BellMinusIconProps>(
   const bellVariants: Variants = {
    normal: { rotate: 0 },
    animate: {
-    rotate: [0, -12, 10, -6, 3, 0],
-    transition: { duration: 1.4 * duration, ease: "easeInOut", repeat: 0 },
+    rotate: [0, 7, -18, 14, -9, 5, -2, 0],
+    transition: {
+     duration: 1.3 * duration,
+     ease: "easeInOut",
+     times: [0, 0.09, 0.26, 0.45, 0.62, 0.78, 0.9, 1],
+    },
    },
   };
 
   const clapperVariants: Variants = {
    normal: { x: 0 },
    animate: {
-    x: [0, -3, 3, -2, 1, 0],
-    transition: { duration: 1.4 * duration, ease: "easeInOut", repeat: 0 },
+    x: [0, 1.5, -5, 4, -2.5, 1.5, -1, 0],
+    transition: {
+     duration: 1.3 * duration,
+     ease: "easeInOut",
+     times: [0, 0.09, 0.26, 0.45, 0.62, 0.78, 0.9, 1],
+     delay: 0.08 * duration,
+    },
    },
   };
 
   const minusVariants: Variants = {
-   normal: { scaleX: 1, opacity: 1, rotate: 0 },
+   normal: { scale: 1, opacity: 1 },
    animate: {
-    scaleX: [1, 0.6, 1.2, 1],
-    rotate: [0, -10, 10, 0],
-    opacity: [1, 0.6, 1],
-    transition: { duration: 1.2 * duration, ease: "easeInOut", repeat: 0 },
+    scale: [0.3, 1.2, 0.94, 1],
+    opacity: [0, 1, 1, 1],
+    transition: {
+     duration: 0.8 * duration,
+     ease: [0.34, 1.4, 0.64, 1],
+     delay: 0.16 * duration,
+    },
    },
   };
 
@@ -132,6 +144,7 @@ const BellMinusIcon = forwardRef<BellMinusIconHandle, BellMinusIconProps>(
       variants={bellVariants}
       animate={controls}
       initial="normal"
+      style={{ transformOrigin: "top center" }}
      >
       <m.path d="M10.268 21a2 2 0 0 0 3.464 0" variants={clapperVariants} />
       <m.path d="M15 8h6" variants={minusVariants} />

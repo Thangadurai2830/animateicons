@@ -84,24 +84,24 @@ const ChevronUpIcon = forwardRef<ChevronUpIconHandle, ChevronUpIconProps>(
   const leadingArrow: Variants = {
    normal: { y: 0, opacity: 1 },
    animate: {
-    y: [0, -4, 0],
-    opacity: [1, 0.6, 1],
+    y: [0, 1.5, -4, 0],
     transition: {
-     duration: 0.8 * duration,
-     repeat: 0,
+     duration: 1 * duration,
+     ease: "easeInOut",
+     times: [0, 0.2, 0.55, 1],
     },
    },
   };
 
   const trailingArrow: Variants = {
-   normal: { y: 0, opacity: 0.5 },
+   normal: { y: 0, opacity: 0 },
    animate: {
-    y: [0, -6, 0],
-    opacity: [0.5, 0.2, 0.5],
+    y: [0, -9],
+    opacity: [0, 0.45, 0],
     transition: {
-     duration: 0.8 * duration,
-     repeat: 0,
-     delay: 0.2,
+     duration: 1 * duration,
+     ease: "easeOut",
+     delay: 0.08 * duration,
     },
    },
   };

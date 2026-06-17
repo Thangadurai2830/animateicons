@@ -87,10 +87,11 @@ const NotificationOffIcon = forwardRef<
   const bellVariants: Variants = {
    normal: { rotate: 0 },
    animate: {
-    rotate: [0, -10, 8, -5, 3, -1, 0],
+    rotate: [0, 4, -6, 4, -2, 0],
     transition: {
-     duration: 1.4 * duration,
+     duration: 1 * duration,
      ease: "easeInOut",
+     times: [0, 0.16, 0.36, 0.58, 0.8, 1],
     },
    },
   };
@@ -98,10 +99,28 @@ const NotificationOffIcon = forwardRef<
   const clapperVariants: Variants = {
    normal: { x: 0 },
    animate: {
-    x: [0, -2, 2, -1, 1, 0],
+    x: [0, 1, -1.5, 1, -0.5, 0],
     transition: {
-     duration: 1.4 * duration,
+     duration: 1 * duration,
      ease: "easeInOut",
+     times: [0, 0.16, 0.36, 0.58, 0.8, 1],
+     delay: 0.08 * duration,
+    },
+   },
+  };
+
+  const slashVariants: Variants = {
+   normal: { pathLength: 1, opacity: 1 },
+   animate: {
+    pathLength: [0, 1],
+    opacity: [0, 1],
+    transition: {
+     pathLength: {
+      duration: 0.9 * duration,
+      ease: [0.16, 1, 0.3, 1],
+      delay: 0.1 * duration,
+     },
+     opacity: { duration: 0.18 * duration, delay: 0.1 * duration },
     },
    },
   };
@@ -135,7 +154,7 @@ const NotificationOffIcon = forwardRef<
        variants={clapperVariants}
       />
 
-      <path d="M2 2L22 22" />
+      <m.path d="M2 2L22 22" variants={slashVariants} />
 
       <path d="M21 16.2311C21 15.762 20.8136 15.3121 20.4819 14.9803L19.8787 14.3771C19.3161 13.8145 19 13.0514 19 12.2558V9.5C19 5.634 15.866 2.5 12 2.5C10.4497 2.5 9.01706 3.00399 7.85707 3.85707M4.76887 18C3.79195 18 3 17.208 3 16.2311C3 15.762 3.18636 15.3121 3.51809 14.9803L4.12132 14.3771C4.68393 13.8145 5 13.0514 5 12.2558V9.5C5 8.20839 5.34981 6.99849 5.95987 5.95987L18 18H4.76887Z" />
      </m.svg>

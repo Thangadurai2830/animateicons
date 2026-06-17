@@ -81,13 +81,24 @@ const CheckIcon = forwardRef<CheckIconHandle, CheckIconProps>(
    [controls, onMouseLeave],
   );
 
+  // Premium check: the tick draws in fast (expo ease) while the mark pops
+  // with a slight overshoot, then settles - a confident "done" gesture.
   const tickVariants: Variants = {
    normal: { strokeDashoffset: 0, scale: 1, opacity: 1 },
    animate: {
     strokeDashoffset: [20, 0],
-    scale: [1, 1.2, 1],
-    opacity: [0.5, 1],
-    transition: { duration: 0.6 * duration, ease: "easeInOut" },
+    scale: [0.7, 1.15, 0.97, 1],
+    opacity: [0, 1, 1],
+    transition: {
+     strokeDashoffset: { duration: 0.45 * duration, ease: [0.16, 1, 0.3, 1] },
+     scale: {
+      duration: 0.55 * duration,
+      ease: "easeOut",
+      times: [0, 0.55, 0.8, 1],
+      delay: 0.1 * duration,
+     },
+     opacity: { duration: 0.18 * duration },
+    },
    },
   };
 
@@ -118,6 +129,7 @@ const CheckIcon = forwardRef<CheckIconHandle, CheckIconProps>(
        variants={tickVariants}
        initial="normal"
        animate={controls}
+       style={{ transformOrigin: "center" }}
       />
      </m.svg>
     </m.div>

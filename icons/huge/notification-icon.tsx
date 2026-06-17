@@ -87,10 +87,11 @@ const NotificationIcon = forwardRef<
   const bellVariants: Variants = {
    normal: { rotate: 0 },
    animate: {
-    rotate: [0, -18, 15, -10, 6, -3, 0],
+    rotate: [0, 7, -18, 14, -9, 5, -2, 0],
     transition: {
-     duration: 1.6 * duration,
+     duration: 1.3 * duration,
      ease: "easeInOut",
+     times: [0, 0.09, 0.26, 0.45, 0.62, 0.78, 0.9, 1],
     },
    },
   };
@@ -98,10 +99,12 @@ const NotificationIcon = forwardRef<
   const clapperVariants: Variants = {
    normal: { x: 0 },
    animate: {
-    x: [0, -4, 4, -2, 2, 0],
+    x: [0, 1.5, -5, 4, -2.5, 1.5, -1, 0],
     transition: {
-     duration: 1.6 * duration,
+     duration: 1.3 * duration,
      ease: "easeInOut",
+     times: [0, 0.09, 0.26, 0.45, 0.62, 0.78, 0.9, 1],
+     delay: 0.08 * duration,
     },
    },
   };
@@ -128,6 +131,7 @@ const NotificationIcon = forwardRef<
       animate={controls}
       initial="normal"
       variants={bellVariants}
+      style={{ originX: 0.5, originY: 0.12 }}
      >
       <m.path
        d="M15.5 18C15.5 19.933 13.933 21.5 12 21.5C10.067 21.5 8.5 19.933 8.5 18"

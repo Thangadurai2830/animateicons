@@ -87,24 +87,24 @@ const ChevronsUpIcon = forwardRef<ChevronsUpIconHandle, ChevronsUpIconProps>(
   const leadingChevron: Variants = {
    normal: { y: 0, opacity: 1 },
    animate: {
-    y: [0, -6, 0],
-    opacity: [1, 0.6, 1],
+    y: [0, 1.5, -4, 0],
     transition: {
-     duration: 0.8 * duration,
-     repeat: 0,
+     duration: 1 * duration,
+     ease: "easeInOut",
+     times: [0, 0.18, 0.55, 1],
     },
    },
   };
 
   const trailingChevron: Variants = {
-   normal: { y: 0, opacity: 0.6 },
+   normal: { y: 0, opacity: 1 },
    animate: {
-    y: [0, -10, 0],
-    opacity: [0.6, 0.3, 0.6],
+    y: [0, 1.5, -4, 0],
     transition: {
-     duration: 0.8 * duration,
-     repeat: 0,
-     delay: 0.15,
+     duration: 1 * duration,
+     ease: "easeInOut",
+     times: [0, 0.18, 0.55, 1],
+     delay: 0.12 * duration,
     },
    },
   };

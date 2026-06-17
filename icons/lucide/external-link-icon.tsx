@@ -103,18 +103,22 @@ const ExternalLinkIcon = forwardRef<
    normal: { pathLength: 1, opacity: 1 },
    animate: {
     pathLength: [0, 1],
-    opacity: [0.6, 1],
-    transition: { duration: 0.8 * duration, ease: "easeInOut" },
+    opacity: [0.4, 1],
+    transition: { duration: 0.9 * duration, ease: [0.16, 1, 0.3, 1] },
    },
   };
 
   const arrowVariants: Variants = {
    normal: { x: 0, y: 0, opacity: 1 },
    animate: {
-    x: [0, 3, 0],
-    y: [0, -3, 0],
-    opacity: [1, 1, 1],
-    transition: { duration: 0.6 * duration, ease: "easeInOut" },
+    x: [0, -1, 2, 0],
+    y: [0, 1, -2, 0],
+    transition: {
+     duration: 1 * duration,
+     ease: "easeInOut",
+     times: [0, 0.15, 0.55, 1],
+     delay: 0.12 * duration,
+    },
    },
   };
 

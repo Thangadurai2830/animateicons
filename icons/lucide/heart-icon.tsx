@@ -84,14 +84,15 @@ const HeartIcon = forwardRef<HeartIconHandle, HeartIconProps>(
    [controls, onMouseLeave],
   );
 
-  const easeInOutArray: [number, number, number, number] = [0.42, 0, 0.58, 1];
+  const easeOut: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
+  // Snappy outline draw, right side following the left.
   const drawVariantLeft: Variants = {
    normal: { pathLength: 1, opacity: 1 },
    animate: {
     pathLength: [0, 1],
     opacity: [0, 1],
-    transition: { duration: 0.5 * duration, ease: easeInOutArray },
+    transition: { duration: 0.45 * duration, ease: easeOut },
    },
   };
 
@@ -101,21 +102,24 @@ const HeartIcon = forwardRef<HeartIconHandle, HeartIconProps>(
     pathLength: [0, 1],
     opacity: [0, 1],
     transition: {
-     duration: 0.5 * duration,
-     ease: easeInOutArray,
-     delay: 0.12 * duration,
+     duration: 0.45 * duration,
+     ease: easeOut,
+     delay: 0.1 * duration,
     },
    },
   };
 
+  // Premium beat: a real lub-dub (two beats) with overshoot, not a single
+  // flat pulse.
   const svgVariant: Variants = {
    normal: { scale: 1 },
    animate: {
-    scale: [1, 1.12, 0.98, 1],
+    scale: [1, 1.25, 0.95, 1.12, 1],
     transition: {
-     duration: duration,
-     ease: easeInOutArray,
-     times: [0, 0.35, 0.7, 1],
+     duration: 0.95 * duration,
+     ease: "easeOut",
+     times: [0, 0.28, 0.48, 0.72, 1],
+     delay: 0.1 * duration,
     },
    },
   };
@@ -142,6 +146,7 @@ const HeartIcon = forwardRef<HeartIconHandle, HeartIconProps>(
       animate={controls}
       initial="normal"
       variants={svgVariant}
+      style={{ transformOrigin: "center" }}
      >
       <m.path
        d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676"

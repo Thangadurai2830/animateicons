@@ -84,16 +84,12 @@ const MoveRightIcon = forwardRef<MoveRightIconHandle, MoveRightIconProps>(
   const arrowVariants: Variants = {
    normal: { x: 0 },
    animate: {
-    x: [0, 3, 0],
-    transition: { duration: 0.6 * duration, repeat: 0 },
-   },
-  };
-
-  const lineVariants: Variants = {
-   normal: { strokeOpacity: 1 },
-   animate: {
-    strokeOpacity: [1, 0.5, 1],
-    transition: { duration: 0.8 * duration, repeat: 0 },
+    x: [0, -2, 2, 0],
+    transition: {
+     duration: 1 * duration,
+     ease: "easeInOut",
+     times: [0, 0.25, 0.6, 1],
+    },
    },
   };
 
@@ -120,7 +116,7 @@ const MoveRightIcon = forwardRef<MoveRightIconHandle, MoveRightIconProps>(
       initial="normal"
      >
       <m.path d="M18 8L22 12L18 16" variants={arrowVariants} />
-      <m.path d="M2 12H22" variants={lineVariants} />
+      <m.path d="M2 12H22" variants={arrowVariants} />
      </m.svg>
     </m.div>
    </LazyMotion>

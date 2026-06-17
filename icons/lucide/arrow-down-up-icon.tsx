@@ -82,45 +82,34 @@ const ArrowDownUpIcon = forwardRef<ArrowDownUpIconHandle, ArrowDownUpIconProps>(
   );
 
   const iconVariants: Variants = {
-   normal: { scale: 1, rotate: 0 },
+   normal: { scale: 1 },
    animate: {
-    scale: [1, 1.08, 0.96, 1],
-    rotate: [0, -4, 2, 0],
-    transition: { duration: 0.9 * duration, ease: "easeInOut" },
-   },
-  };
-
-  const downArrowVariants: Variants = {
-   normal: { y: 0, opacity: 1 },
-   animate: {
-    y: [-4, 2, 0],
-    opacity: [0, 1],
-    transition: {
-     duration: 0.7 * duration,
-     ease: "easeOut",
-     delay: 0.1,
-    },
-   },
-  };
-
-  const upArrowVariants: Variants = {
-   normal: { y: 0, opacity: 1 },
-   animate: {
-    y: [4, -2, 0],
-    opacity: [0, 1],
-    transition: {
-     duration: 0.7 * duration,
-     ease: "easeOut",
-     delay: 0.15,
-    },
-   },
-  };
-
-  const lineVariants: Variants = {
-   normal: { pathLength: 1 },
-   animate: {
-    pathLength: [0, 1],
+    scale: [1, 1.04, 1],
     transition: { duration: 0.8 * duration, ease: "easeInOut" },
+   },
+  };
+
+  const downGroupVariants: Variants = {
+   normal: { y: 0 },
+   animate: {
+    y: [0, 3, 0],
+    transition: {
+     duration: 1 * duration,
+     ease: "easeInOut",
+     times: [0, 0.5, 1],
+    },
+   },
+  };
+
+  const upGroupVariants: Variants = {
+   normal: { y: 0 },
+   animate: {
+    y: [0, -3, 0],
+    transition: {
+     duration: 1 * duration,
+     ease: "easeInOut",
+     times: [0, 0.5, 1],
+    },
    },
   };
 
@@ -149,25 +138,25 @@ const ArrowDownUpIcon = forwardRef<ArrowDownUpIconHandle, ArrowDownUpIconProps>(
      >
       <m.path
        d="m3 16 4 4 4-4"
-       variants={downArrowVariants}
+       variants={downGroupVariants}
        initial="normal"
        animate={controls}
       />
       <m.path
        d="M7 20V4"
-       variants={lineVariants}
+       variants={downGroupVariants}
        initial="normal"
        animate={controls}
       />
       <m.path
        d="m21 8-4-4-4 4"
-       variants={upArrowVariants}
+       variants={upGroupVariants}
        initial="normal"
        animate={controls}
       />
       <m.path
        d="M17 4v16"
-       variants={lineVariants}
+       variants={upGroupVariants}
        initial="normal"
        animate={controls}
       />

@@ -90,24 +90,24 @@ const ChevronsRightIcon = forwardRef<
   const leadingArrow: Variants = {
    normal: { x: 0, opacity: 1 },
    animate: {
-    x: [0, 4, 0],
-    opacity: [1, 0.6, 1],
+    x: [0, -1.5, 4, 0],
     transition: {
-     duration: 0.8 * duration,
-     repeat: 0,
+     duration: 1 * duration,
+     ease: "easeInOut",
+     times: [0, 0.18, 0.55, 1],
     },
    },
   };
 
   const trailingArrow: Variants = {
-   normal: { x: 0, opacity: 0.5 },
+   normal: { x: 0, opacity: 1 },
    animate: {
-    x: [0, 6, 0],
-    opacity: [0.5, 0.2, 0.5],
+    x: [0, -1.5, 4, 0],
     transition: {
-     duration: 0.8 * duration,
-     repeat: 0,
-     delay: 0.2,
+     duration: 1 * duration,
+     ease: "easeInOut",
+     times: [0, 0.18, 0.55, 1],
+     delay: 0.12 * duration,
     },
    },
   };

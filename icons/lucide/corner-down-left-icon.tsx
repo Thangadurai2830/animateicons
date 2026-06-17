@@ -85,22 +85,24 @@ const CornerDownLeftIcon = forwardRef<
   );
 
   const iconVariants: Variants = {
-   normal: { scale: 1, rotate: 0 },
+   normal: { scale: 1 },
    animate: {
-    scale: [1, 1.12, 0.95, 1],
-    rotate: [0, -8, 4, 0],
-    transition: { duration: 0.9 * duration, ease: "easeInOut" },
+    scale: [1, 1.03, 1],
+    transition: { duration: 0.8 * duration, ease: "easeInOut" },
    },
   };
 
   const arrowVariants: Variants = {
-   normal: { opacity: 1, x: 0, y: 0, rotate: 0 },
+   normal: { opacity: 1, x: 0 },
    animate: {
-    opacity: [0, 1],
-    x: [8, -2, 0],
-    y: [-4, 2, 0],
-    rotate: [-25, 10, 0],
-    transition: { duration: 0.8 * duration, ease: "easeOut", delay: 0.1 },
+    opacity: [0, 1, 1],
+    x: [3, -3, 0],
+    transition: {
+     duration: 0.8 * duration,
+     ease: "easeOut",
+     times: [0, 0.6, 1],
+     delay: 0.5 * duration,
+    },
    },
   };
 
@@ -108,7 +110,7 @@ const CornerDownLeftIcon = forwardRef<
    normal: { pathLength: 1 },
    animate: {
     pathLength: [0, 1],
-    transition: { duration: 0.7 * duration, ease: "easeInOut" },
+    transition: { duration: 0.9 * duration, ease: [0.16, 1, 0.3, 1] },
    },
   };
 
