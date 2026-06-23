@@ -21,10 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
-    # Required for actions/github-script to post PR comments.
+    # Fork PRs get a read-only token — no write permissions needed here.
     permissions:
       contents: read
-      pull-requests: write
 
     steps:
       - name: Checkout PR branch
@@ -38,71 +37,78 @@ jobs:
         with:
           node-version: "20"
           cache: "pnpm"
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            npm/pnpm-lock.yaml
 
-      - name: Install dependencies
+      - name: Install root dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install npm package dependencies
+        working-directory: npm
         run: pnpm install --frozen-lockfile
 
       # -----------------------------------------------------------------------
       # Build the npm package so dist/ exists for analysis.
       # -----------------------------------------------------------------------
       - name: Build npm package
-        run: pnpm --filter @animateicons/react build
+        working-directory: npm
+        run: pnpm build
 
       # -----------------------------------------------------------------------
-      # Run the analysis script in --pr-comment mode so it writes the markdown
-      # table to GITHUB_OUTPUT for the comment step below.
+      # Run the analysis script and capture output to a file.
+      # We redirect GITHUB_OUTPUT to a temp file so we can read it back.
       # -----------------------------------------------------------------------
       - name: Analyze bundle sizes
         id: analyze
-        run: |
-          pnpm --filter @animateicons/react exec \
-            npx tsx scripts/analyze-bundle.ts --pr-comment
+        working-directory: npm
+        run: pnpm exec tsx scripts/analyze-bundle.ts --pr-comment
         # Don't fail the workflow here — budget failures are reported as a
         # comment. The hard gate is the existing `size` step in build-check.yml.
 
       # -----------------------------------------------------------------------
-      # Post or update a PR comment with the size table.
-      # We use a magic marker so subsequent pushes replace rather than append.
+      # Save PR number + comment body as artifacts so the companion
+      # `bundle-analysis-comment.yml` workflow (triggered via workflow_run
+      # with write access) can post the comment without needing a write token
+      # in the fork context.
       # -----------------------------------------------------------------------
-      - name: Post size report as PR comment
-        uses: actions/github-script@v7
+      - name: Save PR number
+        run: echo "${{ github.event.pull_request.number }}" > pr_number.txt
+
+      - name: Extract comment body from GITHUB_OUTPUT
+        run: |
+          python3 - <<'EOF'
+          import os, re
+
+          output_file = os.environ.get("GITHUB_OUTPUT", "")
+          if not output_file or not os.path.exists(output_file):
+              with open("pr_comment_body.txt", "w") as f:
+                  f.write("(bundle analysis output not available)")
+              exit(0)
+
+          with open(output_file, "r") as f:
+              content = f.read()
+
+          # Multiline output format: key<<DELIMITER\nvalue\nDELIMITER
+          m = re.search(r"pr_comment_body<<(\S+)\n(.*?)\n\1", content, re.DOTALL)
+          body = m.group(2) if m else "(no bundle report generated)"
+
+          with open("pr_comment_body.txt", "w") as f:
+              f.write(body)
+          EOF
+
+      - name: Upload PR artifacts
+        uses: actions/upload-artifact@v4
         with:
-          script: |
-            const MARKER = '<!-- animateicons-bundle-analysis -->';
-            const body = `${MARKER}\n${process.env.PR_COMMENT_BODY}`;
-
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
-
-            const existing = comments.find(c =>
-              c.user?.type === 'Bot' && c.body?.startsWith(MARKER)
-            );
-
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existing.id,
-                body,
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body,
-              });
-            }
-        env:
-          PR_COMMENT_BODY: ${{ steps.analyze.outputs.pr_comment_body }}
+          name: bundle-analysis-pr-${{ github.event.pull_request.number }}
+          path: |
+            pr_number.txt
+            pr_comment_body.txt
+          retention-days: 1
 
       # -----------------------------------------------------------------------
       # Upload size-history.json as an artifact so per-PR history is preserved
-      # even if the file isn't committed back (common for open-source repos
-      # where PR branches can't write to main).
+      # even if the file isn't committed back.
       # -----------------------------------------------------------------------
       - name: Upload size history artifact
         uses: actions/upload-artifact@v4
